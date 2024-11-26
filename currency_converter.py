@@ -17,12 +17,20 @@ def get_currencies():
     return data
 
 def print_currencies(currencies):
-    for currency in currencies:
+    for name, currency in currencies:
         name = currency['currencyName']
         _id = currency['id']
-
         symbol = currency.get("currencySymbol", "")
         print(f"{_id} - {name} - {symbol}")
+
+def exchange_rate(currency1, currency2):
+    endpoint = f"api/v7/convert?q={currency1}_{currency2}&compact=ultra&apiKey={API_KEY}"
+    url = BASE_URL + endpoint
+    response = get(url)
+
+    data = response.json()
+
+    printer.pprint(data)
 
 data = get_currencies()
 print_currencies(data)
